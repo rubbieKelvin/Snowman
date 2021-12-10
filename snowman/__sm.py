@@ -1,7 +1,10 @@
 from typing import Tuple
+from typing import Final
 
 APPNAME = "Snowman"
-VERSION = (1, 0, 0)
+VERSION = (0, 0, 1)
+__email__: Final = "dev.rubbie@gmail.com"
+__authour__: Final = "Rubbie Kelvin Voltman"
 
 def version_tuple_to_str(version: Tuple[int, int, int]) -> str:
     return '.'.join([str(i) for i in version])
@@ -18,3 +21,6 @@ def version_tuple_from_str(version: str) -> Tuple[int|None, int|None, int|None]:
         raise TypeError(f'Invalid version type "{version}"')
 
     return tuple([ *res, *([None]*(3-len(res))) ])
+
+
+__version__: Final = version_tuple_to_str(VERSION)

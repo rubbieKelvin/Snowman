@@ -43,7 +43,7 @@ class Snowman:
 
 	def searchSnowFiles(self, root: Path) -> Dict[str, Snow]:
 		"searches a directory, including subdirectory for .snow files"
-		
+
 		result: Dict[str, Snow] = dict()
 		
 		def traverse(path: Path, prefix: str=""):
