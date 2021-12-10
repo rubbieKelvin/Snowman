@@ -32,11 +32,7 @@ class Snowman:
 		self.session = Session()
 
 		self.env = SnowEnv(root/envfilename)
-		self.files: Dict[str, Snow] = {
-			os.path.splitext(filename)[0] : Snow(root/filename, self.env) \
-			for filename in os.listdir(root) \
-			if os.path.splitext(filename)[1].lower() == ".snow"
-		}
+		self.files: Dict[str, Snow] = self.searchSnowFiles(self.root)
 
 	def call(self, name: str, data: Union[Dict[str, Any], None]=None) -> Union[Response, None]:
 		snow: Snow = self.get(name)
@@ -44,3 +40,18 @@ class Snowman:
 
 	def get(self, name: str) -> Snow:
 		return self.files[name]
+
+	def searchSnowFiles(self, root: Path) -> Dict[str, Snow]:
+		"searches a directory, including subdirectory for .snow files"
+		
+		result: Dict[str, Snow] = dict()
+		
+		def traverse(path: Path, prefix: str=""):
+			for folderitem in os.listdir(path):
+				if os.path.isfile(path/folderitem) and os.path.splitext(folderitem)[1].lower() == ".snow":
+					result[prefix+os.path.splitext(folderitem)[0]] = Snow(path/folderitem, self.env)
+				elif os.path.isdir(path/folderitem) and (not "." in folderitem):
+					traverse(path/folderitem, prefix=f"{folderitem}.")
+
+		traverse(root)
+		return result
