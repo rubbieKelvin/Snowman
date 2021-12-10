@@ -4,6 +4,8 @@ from typing import Any, Dict
 
 class SnowEnv:
 	def __init__(self, path:Path) -> None:
+		""" Manages the environmental variable at path
+		"""
 		self.path: Path = path
 		self.data: Dict[str, Any] = dict()
 
@@ -15,5 +17,13 @@ class SnowEnv:
 
 	def set(self, key: str, value: Any) -> None:
 		self.data[key] = value
-		with open(self.path) as file:
-			json.dump(self.data, file)
+		self._save()
+
+	def _save(self):
+		with open(self.path, "w") as file:
+			json.dump(self.data, file, indent=4)
+
+	def remove(self, key: str):
+		if key in self.data:
+			del self.data[key]
+			self._save()

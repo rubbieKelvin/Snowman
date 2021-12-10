@@ -5,6 +5,8 @@ from .snow import Snow
 from .env import SnowEnv
 
 from pathlib import Path
+from requests import Session
+from requests import Response
 
 from typing import Dict
 from typing import Any
@@ -27,6 +29,8 @@ logging.getLogger('').addHandler(console)
 class Snowman:
 	def __init__(self, root: Path, envfilename: str='env.json') -> None:
 		self.root = root
+		self.session = Session()
+
 		self.env = SnowEnv(root/envfilename)
 		self.files: Dict[str, Snow] = {
 			os.path.splitext(filename)[0] : Snow(root/filename, self.env) \
@@ -34,7 +38,9 @@ class Snowman:
 			if os.path.splitext(filename)[1].lower() == ".snow"
 		}
 
+	def call(self, name: str, data: Union[Dict[str, Any], None]=None) -> Union[Response, None]:
+		snow: Snow = self.get(name)
+		return snow.call(self.session, data)
 
-	def call(self, name: str, data: Union[Dict[str, Any], None]=None):
-		snow: Snow = self.files[name]
-		snow.call(data)
+	def get(self, name: str) -> Snow:
+		return self.files[name]
