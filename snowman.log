@@ -1,0 +1,6 @@
+12-10 02:14 snowman.snow INFO     calling <Snow [POST] http://localhost:8000/api/auth/token/login/>
+12-10 02:14 urllib3.connectionpool DEBUG    Starting new HTTP connection (1): localhost:8000
+12-10 02:14 urllib3.connectionpool DEBUG    http://localhost:8000 "POST /api/auth/token/login/ HTTP/1.1" 400 68
+12-10 02:15 snowman.snow INFO     calling <Snow [POST] http://localhost:8000/api/auth/token/login/>
+12-10 02:15 urllib3.connectionpool DEBUG    Starting new HTTP connection (1): localhost:8000
+12-10 02:15 urllib3.connectionpool DEBUG    http://localhost:8000 "POST /api/auth/token/login/ HTTP/1.1" 400 68
