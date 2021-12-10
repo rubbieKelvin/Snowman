@@ -51,7 +51,7 @@ class Snow:
 		self.timeout: int = _config.get("timeout", 300)
 
 		# require
-		self.require: str = _data.get("require", str(VERSION[0]))
+		self.require: str = _data.get("require", version_tuple_to_str(VERSION))
 		self.check_version()
 
 
@@ -110,8 +110,15 @@ class Snow:
 
 	def check_version(self):
 		required_version = version_tuple_from_str(self.require)
-		if not (VERSION[0] == (rv0:=required_version[0])):
-			warnings.warn(f"{self} requires version {rv0}.x.x, got {version_tuple_to_str(VERSION)} instead.")
+		# if not (VERSION[0] == (rv0:=required_version[0])):
+		# 	warnings.warn(f"{self} requires version {rv0}.x.x, got {version_tuple_to_str(VERSION)} instead.")
+		for i in range(3):
+			if (i!=0) and required_version[i]==None:
+				continue
+
+			if VERSION[i] != required_version[i]:
+				warnings.warn(f'{self} requires version {".".join([str(_ or "x") for _ in required_version])}, got {version_tuple_to_str(VERSION)} instead.')
+				break
 
 	def reconstructDict(self, dictionary: Dict[str, Any], /, variables: Union[Dict[str, Any], None]=None):
 		for key, value in dictionary.items():

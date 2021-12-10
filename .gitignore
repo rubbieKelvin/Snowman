@@ -1,9 +1,9 @@
 .pyre
 snowman-files
-main.ipynb
+*.ipynb
 .pyre_configuration
 .watchmanconfig
 venv
 .vscode
-.log
+*.log
 **/__pycache__
